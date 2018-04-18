@@ -16,6 +16,21 @@ func main() {
 
 	log.Println("Starting server...")
 
+	log.Println("release: " + release)
+	log.Println("commit: " + commit)
+	log.Println("powered: " + powered)
+
+	if release == "" {
+		release = "unknown"
+	}
+	if commit == "" {
+		commit = "not present"
+	}
+	if powered == "" {
+		powered = "deis"
+	}
+
+
 
 	// point / at the handler function
 	http.HandleFunc("/", handler)
@@ -28,6 +43,10 @@ func main() {
 }
 
 const (
+	release = os.Getenv("WORKFLOW_RELEASE")
+	commit = os.Getenv("GIT_SHA")
+	powered = os.Getenv("POWERED_BY")
+
 	html = `
 		<html>
 			<head>
@@ -64,24 +83,6 @@ func handler(w http.ResponseWriter, r *http.Request) {
 	hostname, err := os.Hostname()
 	if err != nil {
 		log.Fatalf("could not get hostname: %s", err)
-	}
-
-	release := os.Getenv("WORKFLOW_RELEASE")
-	commit := os.Getenv("GIT_SHA")
-	powered := os.Getenv("POWERED_BY")
-
-	log.Println("release: " + release)
-	log.Println("commit: " + commit)
-	log.Println("powered: " + powered)
-
-	if release == "" {
-		release = "unknown"
-	}
-	if commit == "" {
-		commit = "not present"
-	}
-	if powered == "" {
-		powered = "deis"
 	}
 
 	fmt.Fprintf(w, html, hostname, release, commit, powered)
