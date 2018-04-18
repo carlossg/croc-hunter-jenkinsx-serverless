@@ -9,12 +9,35 @@ import (
 	"os"
 )
 
+var release = os.Getenv("WORKFLOW_RELEASE")
+var commit = os.Getenv("GIT_SHA")
+var powered = os.Getenv("POWERED_BY")
+
 func main() {
 	httpListenAddr := flag.String("port", "8080", "HTTP Listen address.")
 
 	flag.Parse()
 
 	log.Println("Starting server...")
+
+	log.Println("release: " + release)
+	log.Println("commit: " + commit)
+	log.Println("powered: " + powered)
+
+	release := os.Getenv("WORKFLOW_RELEASE")
+	commit := os.Getenv("GIT_SHA")
+	powered := os.Getenv("POWERED_BY")
+
+	if release == "" {
+		release = "unknown"
+	}
+	if commit == "" {
+		commit = "not present"
+	}
+	if powered == "" {
+		powered = "deis"
+	}
+
 
 
 	// point / at the handler function
@@ -64,20 +87,6 @@ func handler(w http.ResponseWriter, r *http.Request) {
 	hostname, err := os.Hostname()
 	if err != nil {
 		log.Fatalf("could not get hostname: %s", err)
-	}
-
-	release := os.Getenv("WORKFLOW_RELEASE")
-	commit := os.Getenv("GIT_SHA")
-	powered := os.Getenv("POWERED_BY")
-
-	if release == "" {
-		release = "unknown"
-	}
-	if commit == "" {
-		commit = "not present"
-	}
-	if powered == "" {
-		powered = "deis"
 	}
 
 	fmt.Fprintf(w, html, hostname, release, commit, powered)
