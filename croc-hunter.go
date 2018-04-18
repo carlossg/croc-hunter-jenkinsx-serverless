@@ -24,10 +24,6 @@ func main() {
 	log.Println("commit: " + commit)
 	log.Println("powered: " + powered)
 
-	release := os.Getenv("WORKFLOW_RELEASE")
-	commit := os.Getenv("GIT_SHA")
-	powered := os.Getenv("POWERED_BY")
-
 	if release == "" {
 		release = "unknown"
 	}

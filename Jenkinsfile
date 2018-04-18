@@ -60,7 +60,7 @@ pipeline {
             dir ('/home/jenkins/go/src/github.com/carlossg/croc-hunter-jenkinsx') {
               container('go') {
                 sh "make build"
-                sh "docker build -t \$JENKINS_X_DOCKER_REGISTRY_SERVICE_HOST:\$JENKINS_X_DOCKER_REGISTRY_SERVICE_PORT/$ORG/$APP_NAME:\$(cat VERSION) ."
+                sh "docker build --build-arg GIT_SHA=${env.GIT_COMMIT} --build-arg WORKFLOW_RELEASE=\$(cat VERSION) -t \$JENKINS_X_DOCKER_REGISTRY_SERVICE_HOST:\$JENKINS_X_DOCKER_REGISTRY_SERVICE_PORT/$ORG/$APP_NAME:\$(cat VERSION) ."
                 sh "docker push \$JENKINS_X_DOCKER_REGISTRY_SERVICE_HOST:\$JENKINS_X_DOCKER_REGISTRY_SERVICE_PORT/$ORG/$APP_NAME:\$(cat VERSION)"
               }
             }
