@@ -1,10 +1,11 @@
 pipeline {
     agent {
-        label "jenkins-nodejs"
+        label "jenkins-go"
     }
     environment {
-      ORG               = 'jenkinsx'
+      ORG               = 'carlossg'
       APP_NAME          = 'croc-hunter-jenkinsx'
+      GIT_PROVIDER      = 'github.com'
       CHARTMUSEUM_CREDS = credentials('jenkins-x-chartmuseum')
     }
     stages {
@@ -18,18 +19,18 @@ pipeline {
           HELM_RELEASE = "$PREVIEW_NAMESPACE".toLowerCase()
         }
         steps {
-          container('nodejs') {
-            sh "npm install"
-            sh "npm test"
-
-            sh 'export VERSION=$PREVIEW_VERSION && skaffold run -f skaffold.yaml'
+          dir ('/home/jenkins/go/src/github.com/carlossg/croc-hunter-jenkinsx') {
+            checkout scm
+            container('go') {
+              sh "make linux"
+              sh 'export VERSION=$PREVIEW_VERSION && skaffold run -f skaffold.yaml'
+            }
           }
-
-          dir ('./charts/preview') {
-           container('nodejs') {
-             sh "make preview"
-             sh "jx preview --app $APP_NAME --dir ../.."
-           }
+          dir ('/home/jenkins/go/src/github.com/carlossg/croc-hunter-jenkinsx/charts/preview') {
+            container('go') {
+              sh "make preview"
+              sh "jx preview --app $APP_NAME --dir ../.."
+            }
           }
         }
       }
@@ -38,25 +39,28 @@ pipeline {
           branch 'master'
         }
         steps {
-          container('nodejs') {
-            // ensure we're not on a detached head
-            sh "git checkout master"
-            sh "git config --global credential.helper store"
-            sh "jx step validate --min-jx-version 1.1.73"
-            sh "jx step git credentials"
-            // so we can retrieve the version in later steps
-            sh "echo \$(jx-release-version) > VERSION"
-          }
-          dir ('./charts/croc-hunter-jenkinsx') {
-            container('nodejs') {
-              sh "make tag"
+          container('go') {
+            dir ('/home/jenkins/go/src/github.com/carlossg/croc-hunter-jenkinsx') {
+              checkout scm
+              // so we can retrieve the version in later steps
+              sh "echo \$(jx-release-version) > VERSION"
             }
-          }
-          container('nodejs') {
-            sh "npm install"
-            sh "npm test"
+            dir ('/home/jenkins/go/src/github.com/carlossg/croc-hunter-jenkinsx/charts/croc-hunter-jenkinsx') {
+                // ensure we're not on a detached head
+                sh "git checkout master"
+                // until we switch to the new kubernetes / jenkins credential implementation use git credentials store
+                sh "git config --global credential.helper store"
+                sh "jx step validate --min-jx-version 1.1.73"
+                sh "jx step git credentials"
 
-            sh 'export VERSION=`cat VERSION` && skaffold run -f skaffold.yaml'
+                sh "make tag"
+            }
+            dir ('/home/jenkins/go/src/github.com/carlossg/croc-hunter-jenkinsx') {
+              container('go') {
+                sh "make build"
+                sh 'export VERSION=`cat VERSION` && skaffold run -f skaffold.yaml'
+              }
+            }
           }
         }
       }
@@ -65,8 +69,8 @@ pipeline {
           branch 'master'
         }
         steps {
-          dir ('./charts/croc-hunter-jenkinsx') {
-            container('nodejs') {
+          dir ('/home/jenkins/go/src/github.com/carlossg/croc-hunter-jenkinsx/charts/croc-hunter-jenkinsx') {
+            container('go') {
               sh 'jx step changelog --version v\$(cat ../../VERSION)'
 
               // release the helm chart
