@@ -9,6 +9,10 @@ import (
 	"os"
 )
 
+var release = os.Getenv("WORKFLOW_RELEASE")
+var commit = os.Getenv("GIT_SHA")
+var powered = os.Getenv("POWERED_BY")
+
 func main() {
 	httpListenAddr := flag.String("port", "8080", "HTTP Listen address.")
 
@@ -19,6 +23,10 @@ func main() {
 	log.Println("release: " + release)
 	log.Println("commit: " + commit)
 	log.Println("powered: " + powered)
+
+	release := os.Getenv("WORKFLOW_RELEASE")
+	commit := os.Getenv("GIT_SHA")
+	powered := os.Getenv("POWERED_BY")
 
 	if release == "" {
 		release = "unknown"
@@ -43,10 +51,6 @@ func main() {
 }
 
 const (
-	release = os.Getenv("WORKFLOW_RELEASE")
-	commit = os.Getenv("GIT_SHA")
-	powered = os.Getenv("POWERED_BY")
-
 	html = `
 		<html>
 			<head>
