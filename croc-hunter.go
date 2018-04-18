@@ -70,6 +70,10 @@ func handler(w http.ResponseWriter, r *http.Request) {
 	commit := os.Getenv("GIT_SHA")
 	powered := os.Getenv("POWERED_BY")
 
+	log.Println("release: " + release)
+	log.Println("commit: " + commit)
+	log.Println("powered: " + powered)
+
 	if release == "" {
 		release = "unknown"
 	}
