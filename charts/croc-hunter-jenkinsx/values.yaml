@@ -1,4 +1,4 @@
-# Default values for node projects.
+# Default values for Go projects.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 replicaCount: 1
