@@ -1,10 +1,6 @@
-FROM scratch
-ARG GIT_SHA
-ARG WORKFLOW_RELEASE
-ENV GIT_SHA=$GIT_SHA
-ENV WORKFLOW_RELEASE=$WORKFLOW_RELEASE
-ENV POWERED_BY=Jenkins-X
+FROM node:9-slim
+ENV PORT 8080
 EXPOSE 8080
-ENTRYPOINT ["/croc-hunter-jenkinsx"]
-COPY ./bin/ /
-COPY static/ static/
+WORKDIR /usr/src/app
+COPY . .
+CMD ["npm", "start"]
