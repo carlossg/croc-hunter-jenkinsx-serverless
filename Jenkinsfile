@@ -22,8 +22,8 @@ pipeline {
           dir ('/home/jenkins/go/src/github.com/carlossg/croc-hunter-jenkinsx') {
             checkout scm
             container('go') {
-              sh "make linux"
-              sh 'export VERSION=$PREVIEW_VERSION && skaffold run -f skaffold.yaml'
+              sh "make VERSION=\$PREVIEW_VERSION GIT_COMMIT=\$GIT_COMMIT linux"
+              sh "export VERSION=\$PREVIEW_VERSION && skaffold run -f skaffold.yaml.new"
             }
           }
           dir ('/home/jenkins/go/src/github.com/carlossg/croc-hunter-jenkinsx/charts/preview') {
@@ -57,8 +57,8 @@ pipeline {
             }
             dir ('/home/jenkins/go/src/github.com/carlossg/croc-hunter-jenkinsx') {
               container('go') {
-                sh "make build"
-                sh 'export VERSION=`cat VERSION` && skaffold run -f skaffold.yaml'
+                sh "make VERSION=`cat VERSION` GIT_COMMIT=\$GIT_COMMIT build"
+                sh "export VERSION=`cat VERSION` && skaffold run -f skaffold.yaml.new"
               }
             }
           }
