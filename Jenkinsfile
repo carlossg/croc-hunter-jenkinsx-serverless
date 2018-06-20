@@ -29,9 +29,92 @@ pipeline {
           dir ('/home/jenkins/go/src/github.com/carlossg/croc-hunter-jenkinsx/charts/preview') {
             container('go') {
               sh "make preview"
+              sh "jx edit helmbin helm" // workaround bug
               sh "jx preview --app $APP_NAME --dir ../.."
             }
           }
+        }
+      }
+      stage('Selenium test') {
+        agent {
+          kubernetes {
+            label 'selenium'
+            yaml """
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    some-label: some-label-value
+spec:
+  serviceAccountName: jenkins
+  containers:
+  - name: maven-chrome
+    image: jenkinsxio/builder-maven:0.0.305
+    command:
+    - cat
+    tty: true
+  - name: maven-firefox
+    image: jenkinsxio/builder-maven:0.0.305
+    command:
+    - cat
+    tty: true
+  - name: selenium-hub
+    image: selenium/hub:3.4.0
+  - name: selenium-chrome
+    image: selenium/node-chrome:3.4.0
+    env:
+    - name: HUB_PORT_4444_TCP_ADDR
+      value: localhost
+    - name: HUB_PORT_4444_TCP_PORT
+      value: "4444"
+    - name: DISPLAY
+      value: ":99.0"
+    - name: SE_OPTS
+      value: -port 5556
+  - name: selenium-firefox
+    image: selenium/node-firefox:3.4.0
+    env:
+    - name: HUB_PORT_4444_TCP_ADDR
+      value: localhost
+    - name: HUB_PORT_4444_TCP_PORT
+      value: "4444"
+    - name: DISPLAY
+      value: ":98.0"
+    - name: SE_OPTS
+      value: -port 5557
+"""
+          }
+        }
+        when {
+          branch 'PR-*'
+        }
+        steps {
+          parallel(
+            chrome: {
+              dir('chrome') {
+                git url: 'https://github.com/carlossg/croc-hunter-selenium.git'
+                container('maven-chrome') {
+                  sh '''
+                  yum install -y jq
+                  previewUrl=$(jx open -n jx-$(jx get preview -o json|jq -r ".items[0].metadata.name") | grep -o "http.*")
+                  mvn -B clean test -Dselenium.browser=chrome -Dsurefire.rerunFailingTestsCount=1 -Dsleep=0 -Durl=$previewUrl -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn
+                  '''
+                }
+              }
+            },
+            firefox: {
+              dir('firefox') {
+                git url: 'https://github.com/carlossg/croc-hunter-selenium.git'
+                container('maven-firefox') {
+                  sh '''
+                  yum install -y jq
+                  previewUrl=$(jx open -n jx-$(jx get preview -o json|jq -r ".items[0].metadata.name") | grep -o "http.*")
+                  mvn -B clean test -Dselenium.browser=firefox -Dsurefire.rerunFailingTestsCount=1 -Dsleep=0 -Durl=$previewUrl -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn
+                  '''
+                }
+              }
+            }
+          )
         }
       }
       stage('Build Release') {
