@@ -99,7 +99,8 @@ spec:
                 container('maven-chrome') {
                   sh '''
                   yum install -y jq
-                  previewUrl=$(jx open -n jx-$(jx get preview -o json|jq -r ".items[0].metadata.name") | grep -o "http.*")
+                  echo PR is $CHANGE_ID
+                  previewUrl=$(jx get preview -o json|jq  -r ".items[].spec | select (.previewGitInfo.name==\\"$CHANGE_ID\\") | .previewGitInfo.applicationURL")
                   mvn -B clean test -Dselenium.browser=chrome -Dsurefire.rerunFailingTestsCount=1 -Dsleep=0 -Durl=$previewUrl -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn
                   '''
                 }
@@ -111,7 +112,8 @@ spec:
                 container('maven-firefox') {
                   sh '''
                   yum install -y jq
-                  previewUrl=$(jx open -n jx-$(jx get preview -o json|jq -r ".items[0].metadata.name") | grep -o "http.*")
+                  echo PR is $CHANGE_ID
+                  previewUrl=$(jx get preview -o json|jq  -r ".items[].spec | select (.previewGitInfo.name==\\"$CHANGE_ID\\") | .previewGitInfo.applicationURL")
                   mvn -B clean test -Dselenium.browser=firefox -Dsurefire.rerunFailingTestsCount=1 -Dsleep=0 -Durl=$previewUrl -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn
                   '''
                 }
