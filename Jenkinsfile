@@ -23,7 +23,7 @@ pipeline {
             checkout scm
             container('go') {
               sh "make VERSION=\$PREVIEW_VERSION GIT_COMMIT=\$GIT_COMMIT linux"
-              sh 'export VERSION=$PREVIEW_VERSION && skaffold run -f skaffold.yaml.new'
+              sh 'export VERSION=$PREVIEW_VERSION && skaffold build -f skaffold.yaml.new'
 
 
               sh "jx step post build --image $DOCKER_REGISTRY/$ORG/$APP_NAME:$PREVIEW_VERSION"
