@@ -3,7 +3,7 @@ kind: Config
 build:
   tagPolicy:
     envTemplate:
-      template: "{{.JENKINS_X_DOCKER_REGISTRY_SERVICE_HOST}}:{{.JENKINS_X_DOCKER_REGISTRY_SERVICE_PORT}}/{{.ORG}}/{{.APP_NAME}}:{{.VERSION}}"
+      template: "{{.DOCKER_REGISTRY}}/carlossg/croc-hunter-jenkinsx:{{.VERSION}}"
   artifacts:
   - imageName: changeme
     workspace: .
@@ -15,3 +15,20 @@ build:
 deploy:
   kubectl:
     manifests:
+profiles:
+- name: dev
+  build:
+    tagPolicy:
+      envTemplate:
+        template: "{{.DOCKER_REGISTRY}}/carlossg/croc-hunter-jenkinsx:{{.DIGEST_HEX}}"
+    artifacts:
+    - docker: {}
+    local: {}
+  deploy:
+    helm:
+      releases:
+      - name: croc-hunter-jenkinsx
+        chartPath: charts/croc-hunter-jenkinsx
+        setValueTemplates:
+          image.repository: "{{.DOCKER_REGISTRY}}/carlossg/croc-hunter-jenkinsx"
+          image.tag: "{{.TAG}}"

@@ -3,10 +3,11 @@ GO := GO15VENDOREXPERIMENT=1 go
 NAME := croc-hunter-jenkinsx
 OS := $(shell uname)
 MAIN_GO := croc-hunter.go
-ROOT_PACKAGE := $(GIT_PROVIDER)/carlossg/$(NAME)
+ROOT_PACKAGE := $(GIT_PROVIDER)/$(ORG)/$(NAME)
 GO_VERSION := $(shell $(GO) version | sed -e 's/^[^0-9.]*\([0-9.]*\).*/\1/')
 PACKAGE_DIRS := $(shell $(GO) list ./... | grep -v /vendor/)
 PKGS := $(shell go list ./... | grep -v /vendor | grep -v generated)
+PKGS := $(subst  :,_,$(PKGS))
 BUILDFLAGS := ''
 CGO_ENABLED = 0
 VENDOR_DIR=vendor
@@ -74,3 +75,8 @@ lint: vendor | $(PKGS) $(GOLINT) # ❷
 	    test -z "$$($(GOLINT) $$pkg | tee /dev/stderr)" || ret=1 ; \
 	done ; exit $$ret
 
+watch:
+	reflex -r "\.go$" -R "vendor.*" make skaffold-run
+
+skaffold-run: build
+	skaffold run -p dev
