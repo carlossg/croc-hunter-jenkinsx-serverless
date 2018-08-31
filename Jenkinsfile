@@ -25,14 +25,13 @@ pipeline {
               sh "make VERSION=\$PREVIEW_VERSION GIT_COMMIT=\$GIT_COMMIT linux"
               sh 'export VERSION=$PREVIEW_VERSION && skaffold run -f skaffold.yaml.new'
 
-              sh "jx step validate --min-jx-version 1.2.36"
-              sh "jx step post build --image \$JENKINS_X_DOCKER_REGISTRY_SERVICE_HOST:\$JENKINS_X_DOCKER_REGISTRY_SERVICE_PORT/$ORG/$APP_NAME:$PREVIEW_VERSION"
+
+              sh "jx step post build --image $DOCKER_REGISTRY/$ORG/$APP_NAME:$PREVIEW_VERSION"
             }
           }
           dir ('/home/jenkins/go/src/github.com/carlossg/croc-hunter-jenkinsx/charts/preview') {
             container('go') {
               sh "make preview"
-              sh "jx edit helmbin helm" // workaround bug
               sh "jx preview --app $APP_NAME --dir ../.."
             }
           }
@@ -130,25 +129,27 @@ spec:
           container('go') {
             dir ('/home/jenkins/go/src/github.com/carlossg/croc-hunter-jenkinsx') {
               checkout scm
-              // so we can retrieve the version in later steps
-              sh "echo \$(jx-release-version) > VERSION"
             }
             dir ('/home/jenkins/go/src/github.com/carlossg/croc-hunter-jenkinsx/charts/croc-hunter-jenkinsx') {
                 // ensure we're not on a detached head
                 sh "git checkout master"
                 // until we switch to the new kubernetes / jenkins credential implementation use git credentials store
                 sh "git config --global credential.helper store"
-                sh "jx step validate --min-jx-version 1.1.73"
-                sh "jx step git credentials"
 
-                sh "make tag"
+                sh "jx step git credentials"
+            }
+            dir ('/home/jenkins/go/src/github.com/carlossg/croc-hunter-jenkinsx') {
+              // so we can retrieve the version in later steps
+              sh "echo \$(jx-release-version) > VERSION"
+            }
+            dir ('/home/jenkins/go/src/github.com/carlossg/croc-hunter-jenkinsx/charts/croc-hunter-jenkinsx') {
+              sh "make tag"
             }
             dir ('/home/jenkins/go/src/github.com/carlossg/croc-hunter-jenkinsx') {
               container('go') {
                 sh "make VERSION=`cat VERSION` GIT_COMMIT=\$GIT_COMMIT build"
-                sh "export VERSION=`cat VERSION` && skaffold run -f skaffold.yaml.new"
-                sh "jx step validate --min-jx-version 1.2.36"
-                sh "jx step post build --image \$JENKINS_X_DOCKER_REGISTRY_SERVICE_HOST:\$JENKINS_X_DOCKER_REGISTRY_SERVICE_PORT/$ORG/$APP_NAME:\$(cat VERSION)"
+                sh "export VERSION=`cat VERSION` && skaffold build -f skaffold.yaml.new"
+                sh "jx step post build --image $DOCKER_REGISTRY/$ORG/$APP_NAME:\$(cat VERSION)"
               }
             }
           }
@@ -164,7 +165,7 @@ spec:
               sh 'jx step changelog --version v\$(cat ../../VERSION)'
 
               // release the helm chart
-              sh 'make release'
+              sh 'jx step helm release'
 
               // promote through all 'Auto' promotion Environments
               sh 'jx promote -b --all-auto --timeout 1h --version \$(cat ../../VERSION)'
