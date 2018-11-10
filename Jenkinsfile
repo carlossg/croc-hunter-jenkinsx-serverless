@@ -4,7 +4,7 @@ pipeline {
     }
     environment {
       ORG               = 'carlossg'
-      APP_NAME          = 'croc-hunter-jenkinsx'
+      APP_NAME          = 'croc-hunter-jenkinsx-serverless'
       GIT_PROVIDER      = 'github.com'
       CHARTMUSEUM_CREDS = credentials('jenkins-x-chartmuseum')
     }
@@ -19,7 +19,7 @@ pipeline {
           HELM_RELEASE = "$PREVIEW_NAMESPACE".toLowerCase()
         }
         steps {
-          dir ('/home/jenkins/go/src/github.com/carlossg/croc-hunter-jenkinsx') {
+          dir ('/home/jenkins/go/src/github.com/carlossg/croc-hunter-jenkinsx-serverless') {
             checkout scm
             container('go') {
               sh "make VERSION=\$PREVIEW_VERSION GIT_COMMIT=\$GIT_COMMIT linux"
@@ -29,7 +29,7 @@ pipeline {
               sh "jx step post build --image $DOCKER_REGISTRY/$ORG/$APP_NAME:$PREVIEW_VERSION"
             }
           }
-          dir ('/home/jenkins/go/src/github.com/carlossg/croc-hunter-jenkinsx/charts/preview') {
+          dir ('/home/jenkins/go/src/github.com/carlossg/croc-hunter-jenkinsx-serverless/charts/preview') {
             container('go') {
               sh "make preview"
               sh "jx preview --app $APP_NAME --dir ../.."
@@ -43,10 +43,10 @@ pipeline {
         }
         steps {
           container('go') {
-            dir ('/home/jenkins/go/src/github.com/carlossg/croc-hunter-jenkinsx') {
+            dir ('/home/jenkins/go/src/github.com/carlossg/croc-hunter-jenkinsx-serverless') {
               checkout scm
             }
-            dir ('/home/jenkins/go/src/github.com/carlossg/croc-hunter-jenkinsx/charts/croc-hunter-jenkinsx') {
+            dir ('/home/jenkins/go/src/github.com/carlossg/croc-hunter-jenkinsx-serverless/charts/croc-hunter-jenkinsx-serverless') {
                 // ensure we're not on a detached head
                 sh "git checkout master"
                 // until we switch to the new kubernetes / jenkins credential implementation use git credentials store
@@ -54,14 +54,14 @@ pipeline {
 
                 sh "jx step git credentials"
             }
-            dir ('/home/jenkins/go/src/github.com/carlossg/croc-hunter-jenkinsx') {
+            dir ('/home/jenkins/go/src/github.com/carlossg/croc-hunter-jenkinsx-serverless') {
               // so we can retrieve the version in later steps
               sh "echo \$(jx-release-version) > VERSION"
             }
-            dir ('/home/jenkins/go/src/github.com/carlossg/croc-hunter-jenkinsx/charts/croc-hunter-jenkinsx') {
+            dir ('/home/jenkins/go/src/github.com/carlossg/croc-hunter-jenkinsx-serverless/charts/croc-hunter-jenkinsx-serverless') {
               sh "make tag"
             }
-            dir ('/home/jenkins/go/src/github.com/carlossg/croc-hunter-jenkinsx') {
+            dir ('/home/jenkins/go/src/github.com/carlossg/croc-hunter-jenkinsx-serverless') {
               container('go') {
                 sh "make VERSION=`cat VERSION` GIT_COMMIT=\$GIT_COMMIT build"
                 sh "export VERSION=`cat VERSION` && skaffold build -f skaffold.yaml.new"
@@ -76,7 +76,7 @@ pipeline {
           branch 'master'
         }
         steps {
-          dir ('/home/jenkins/go/src/github.com/carlossg/croc-hunter-jenkinsx/charts/croc-hunter-jenkinsx') {
+          dir ('/home/jenkins/go/src/github.com/carlossg/croc-hunter-jenkinsx-serverless/charts/croc-hunter-jenkinsx-serverless') {
             container('go') {
               sh 'jx step changelog --version v\$(cat ../../VERSION)'
 
