@@ -22,8 +22,8 @@ pipeline {
             sh "make VERSION=\$PREVIEW_VERSION GIT_COMMIT=\$GIT_COMMIT linux"
             sh 'export VERSION=$PREVIEW_VERSION && skaffold build -f skaffold.yaml.new'
 
-
-            sh "jx step post build --image $DOCKER_REGISTRY/$ORG/$APP_NAME:$PREVIEW_VERSION"
+            sh "jx step validate --min-jx-version 1.2.36"
+            sh "jx step post build --image \$DOCKER_REGISTRY/$ORG/$APP_NAME:$PREVIEW_VERSION"
           }
           dir ('/home/jenkins/go/src/github.com/carlossg/croc-hunter-jenkinsx-serverless/charts/preview') {
             sh "make preview"
@@ -37,14 +37,12 @@ pipeline {
         }
         steps {
           dir ('/home/jenkins/go/src/github.com/carlossg/croc-hunter-jenkinsx-serverless') {
-            checkout scm
+            git 'https://github.com/carlossg/croc-hunter-jenkinsx-serverless.git'
           }
           dir ('/home/jenkins/go/src/github.com/carlossg/croc-hunter-jenkinsx-serverless/charts/croc-hunter-jenkinsx-serverless') {
-            // ensure we're not on a detached head
-            sh "git checkout master"
             // until we switch to the new kubernetes / jenkins credential implementation use git credentials store
             sh "git config --global credential.helper store"
-
+            sh "jx step validate --min-jx-version 1.1.73"
             sh "jx step git credentials"
           }
           dir ('/home/jenkins/go/src/github.com/carlossg/croc-hunter-jenkinsx-serverless') {
@@ -57,6 +55,7 @@ pipeline {
           dir ('/home/jenkins/go/src/github.com/carlossg/croc-hunter-jenkinsx-serverless') {
             sh "make VERSION=`cat VERSION` GIT_COMMIT=\$GIT_COMMIT build"
             sh "export VERSION=`cat VERSION` && skaffold build -f skaffold.yaml.new"
+            sh "jx step validate --min-jx-version 1.2.36"
             sh "jx step post build --image $DOCKER_REGISTRY/$ORG/$APP_NAME:\$(cat VERSION)"
           }
         }
@@ -70,17 +69,12 @@ pipeline {
             sh 'jx step changelog --version v\$(cat ../../VERSION)'
 
             // release the helm chart
-            sh 'jx step helm release'
+            sh 'make release'
 
             // promote through all 'Auto' promotion Environments
-            sh 'jx promote -b --all-auto --timeout 1h --version \$(cat ../../VERSION)'
+            sh 'jx promote -b --all-auto --timeout 1h --version \$(cat ../../VERSION) --no-wait'
           }
         }
       }
-    }
-    post {
-        always {
-            cleanWs()
-        }
     }
   }
