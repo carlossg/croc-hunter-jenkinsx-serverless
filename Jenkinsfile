@@ -19,7 +19,7 @@ pipeline {
         steps {
           dir ('/home/jenkins/go/src/github.com/carlossg/croc-hunter-jenkinsx-serverless') {
             checkout scm
-            sh "make VERSION=\$PREVIEW_VERSION GIT_COMMIT=\$GIT_COMMIT linux"
+            sh "make VERSION=\$PREVIEW_VERSION GIT_COMMIT=\$PULL_PULL_SHA linux"
             sh 'export VERSION=$PREVIEW_VERSION && skaffold build -f skaffold.yaml.new'
 
             sh "jx step validate --min-jx-version 1.2.36"
@@ -53,7 +53,7 @@ pipeline {
             sh "make tag"
           }
           dir ('/home/jenkins/go/src/github.com/carlossg/croc-hunter-jenkinsx-serverless') {
-            sh "make VERSION=`cat VERSION` GIT_COMMIT=\$GIT_COMMIT build"
+            sh "make VERSION=`cat VERSION` GIT_COMMIT=\$PULL_PULL_SHA build"
             sh "export VERSION=`cat VERSION` && skaffold build -f skaffold.yaml.new"
             sh "jx step validate --min-jx-version 1.2.36"
             sh "jx step post build --image $DOCKER_REGISTRY/$ORG/$APP_NAME:\$(cat VERSION)"
