@@ -8,7 +8,7 @@ Basic go webserver to demonstrate example CI/CD pipeline using Kubernetes
 
 # Deploy using JenkinsX (Kubernetes, Helm, Monocular, ChartMuseum)
 
-Just follow the [JenkinsX](http://jenkins-x.io) installation
+Just follow the [JenkinsX](http://jenkins-x.io) installation with `--prow=true`
 
 For example, if using GKE with cert-manager preinstalled for https certificates
 
