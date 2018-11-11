@@ -39,7 +39,7 @@ pipeline {
           dir ('/home/jenkins/go/src/github.com/carlossg/croc-hunter-jenkinsx-serverless') {
             git 'https://github.com/carlossg/croc-hunter-jenkinsx-serverless.git'
           }
-          dir ('/home/jenkins/go/src/github.com/carlossg/croc-hunter-jenkinsx-serverless/charts/croc-hunter-jenkinsx-serverless') {
+          dir ('/home/jenkins/go/src/github.com/carlossg/croc-hunter-jenkinsx-serverless/charts/croc-hunter-jenkinsx') {
             // until we switch to the new kubernetes / jenkins credential implementation use git credentials store
             sh "git config --global credential.helper store"
             sh "jx step validate --min-jx-version 1.1.73"
@@ -49,7 +49,7 @@ pipeline {
             // so we can retrieve the version in later steps
             sh "echo \$(jx-release-version) > VERSION"
           }
-          dir ('/home/jenkins/go/src/github.com/carlossg/croc-hunter-jenkinsx-serverless/charts/croc-hunter-jenkinsx-serverless') {
+          dir ('/home/jenkins/go/src/github.com/carlossg/croc-hunter-jenkinsx-serverless/charts/croc-hunter-jenkinsx') {
             sh "make tag"
           }
           dir ('/home/jenkins/go/src/github.com/carlossg/croc-hunter-jenkinsx-serverless') {
@@ -65,7 +65,7 @@ pipeline {
           branch 'master'
         }
         steps {
-          dir ('/home/jenkins/go/src/github.com/carlossg/croc-hunter-jenkinsx-serverless/charts/croc-hunter-jenkinsx-serverless') {
+          dir ('/home/jenkins/go/src/github.com/carlossg/croc-hunter-jenkinsx-serverless/charts/croc-hunter-jenkinsx') {
             sh 'jx step changelog --version v\$(cat ../../VERSION)'
 
             // release the helm chart
