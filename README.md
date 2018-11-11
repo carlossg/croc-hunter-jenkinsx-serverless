@@ -8,7 +8,7 @@ Basic go webserver to demonstrate example CI/CD pipeline using Kubernetes
 
 # Deploy using JenkinsX (Kubernetes, Helm, Monocular, ChartMuseum)
 
-Just follow the [JenkinsX](http://jenkins-x.io) installation
+Just follow the [JenkinsX](http://jenkins-x.io) installation with `--prow=true`
 
 For example, if using GKE with cert-manager preinstalled for https certificates
 
@@ -16,7 +16,7 @@ For example, if using GKE with cert-manager preinstalled for https certificates
 
 Then fork this repo and [import it](http://jenkins-x.io/developing/import/)
 
-    jx import --url https://github.com/GITHUB_USER/croc-hunter-jenkinsx
+    jx import --url https://github.com/GITHUB_USER/croc-hunter-jenkinsx-serverless
 
 Then, any PRs against this repo will be automatically deployed to preview environments.
 When they are merged they will be deployed to the `staging` environment.
