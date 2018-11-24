@@ -26,5 +26,6 @@ spec:
 {{- if .Values.appLabel }}
     app: {{ .Values.appLabel }}
 {{- else }}
-    app: {{ template "fullname" . }}
+    app: {{ .Chart.Name }}
 {{- end }}
+    version: {{ .Chart.Version }}
