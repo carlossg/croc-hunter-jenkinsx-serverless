@@ -22,8 +22,9 @@ spec:
 {{- if .Values.appLabel }}
         app: {{ .Values.appLabel }}
 {{- else }}
-        app: {{ template "fullname" . }}
+        app: {{ .Chart.Name }}
 {{- end }}
+        version: {{ .Chart.Version }}
 {{- if .Values.podAnnotations }}
       annotations:
 {{ toYaml .Values.podAnnotations | indent 8 }}
