@@ -59,7 +59,7 @@ const (
 				<canvas id="canvasEnemy" width="800" height="500" ></canvas>
 				<canvas id="canvasJet" width="800" height="500" ></canvas>
 				<canvas id="canvasHud" width="800" height="500" ></canvas>
-				<script src='/static/game2.js'></script>
+				<script src='/static/game.js'></script>
 				<div class="details">
 				<strong>Hostname: </strong><span id="hostname">%s</span><br>
 				<strong>Release: </strong><span id="release">%s</span><br>
