@@ -66,7 +66,7 @@ pipeline {
         }
         steps {
           dir ('/home/jenkins/go/src/github.com/carlossg/croc-hunter-jenkinsx-serverless/charts/croc-hunter-jenkinsx') {
-            sh 'jx step changelog --version v\$(cat ../../VERSION)'
+            sh 'jx step changelog --version v\$(cat ../../VERSION) --generate-yaml=false'
 
             // release the helm chart
             sh 'make release'
