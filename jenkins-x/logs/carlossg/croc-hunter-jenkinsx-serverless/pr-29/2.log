@@ -1,0 +1,281 @@
+Step: build-step-credential-initializer:
+
+Step: build-step-git-source:
+
+Step: build-step-jenkins:
+
+Picked up _JAVA_OPTIONS: -Xmx400m
+Started
+Running in Durability level: PERFORMANCE_OPTIMIZED
+  14.421 [id=14]	WARNING	i.f.k.c.i.VersionUsageUtils#alert: The client is using resource type 'customresourcedefinitions' with unstable version 'v1beta1'
+[Pipeline] node
+Running on Jenkins in /tmp/jenkinsTests.tmp/jenkins137929989858463877test/workspace/job
+[Pipeline] {
+[Pipeline] stage
+[Pipeline] { (Declarative: Checkout SCM)
+  23.008 [id=81]	WARNING	o.j.plugins.workflow.cps.DSL#invokeStep: Error storing the arguments for step: checkout
+org.kohsuke.stapler.NoStaplerConstructorException: There's no @DataBoundConstructor on any constructor of class io.jenkins.jenkinsfile.runner.FileSystemSCM
+	at org.kohsuke.stapler.ClassDescriptor.loadConstructorParamNames(ClassDescriptor.java:265)
+	at org.jenkinsci.plugins.structs.describable.DescribableModel.<init>(DescribableModel.java:144)
+	at org.jenkinsci.plugins.structs.describable.DescribableModel.of(DescribableModel.java:114)
+	at org.jenkinsci.plugins.workflow.cps.actions.ArgumentsActionImpl.sanitizeObjectAndRecordMutation(ArgumentsActionImpl.java:294)
+	at org.jenkinsci.plugins.workflow.cps.actions.ArgumentsActionImpl.sanitizeMapAndRecordMutation(ArgumentsActionImpl.java:386)
+	at org.jenkinsci.plugins.workflow.cps.actions.ArgumentsActionImpl.<init>(ArgumentsActionImpl.java:74)
+	at org.jenkinsci.plugins.workflow.cps.DSL.invokeStep(DSL.java:245)
+	at org.jenkinsci.plugins.workflow.cps.DSL.invokeMethod(DSL.java:178)
+	at org.jenkinsci.plugins.workflow.cps.CpsScript.invokeMethod(CpsScript.java:122)
+	at org.codehaus.groovy.runtime.callsite.PogoMetaClassSite.call(PogoMetaClassSite.java:48)
+	at org.codehaus.groovy.runtime.callsite.CallSiteArray.defaultCall(CallSiteArray.java:48)
+	at org.codehaus.groovy.runtime.callsite.AbstractCallSite.call(AbstractCallSite.java:113)
+	at com.cloudbees.groovy.cps.sandbox.DefaultInvoker.methodCall(DefaultInvoker.java:20)
+	at com.cloudbees.groovy.cps.impl.ContinuationGroup.methodCall(ContinuationGroup.java:57)
+	at com.cloudbees.groovy.cps.impl.FunctionCallBlock$ContinuationImpl.dispatchOrArg(FunctionCallBlock.java:109)
+	at com.cloudbees.groovy.cps.impl.FunctionCallBlock$ContinuationImpl.fixArg(FunctionCallBlock.java:82)
+	at sun.reflect.GeneratedMethodAccessor139.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at com.cloudbees.groovy.cps.impl.ContinuationPtr$ContinuationImpl.receive(ContinuationPtr.java:72)
+	at com.cloudbees.groovy.cps.impl.PropertyishBlock$ContinuationImpl.get(PropertyishBlock.java:76)
+	at com.cloudbees.groovy.cps.LValueBlock$GetAdapter.receive(LValueBlock.java:30)
+	at com.cloudbees.groovy.cps.impl.PropertyishBlock$ContinuationImpl.fixName(PropertyishBlock.java:66)
+	at sun.reflect.GeneratedMethodAccessor144.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at com.cloudbees.groovy.cps.impl.ContinuationPtr$ContinuationImpl.receive(ContinuationPtr.java:72)
+	at com.cloudbees.groovy.cps.impl.ConstantBlock.eval(ConstantBlock.java:21)
+	at com.cloudbees.groovy.cps.Next.step(Next.java:83)
+	at com.cloudbees.groovy.cps.Continuable$1.call(Continuable.java:174)
+	at com.cloudbees.groovy.cps.Continuable$1.call(Continuable.java:163)
+	at org.codehaus.groovy.runtime.GroovyCategorySupport$ThreadCategoryInfo.use(GroovyCategorySupport.java:129)
+	at org.codehaus.groovy.runtime.GroovyCategorySupport.use(GroovyCategorySupport.java:268)
+	at com.cloudbees.groovy.cps.Continuable.run0(Continuable.java:163)
+	at org.jenkinsci.plugins.workflow.cps.SandboxContinuable.access$101(SandboxContinuable.java:34)
+	at org.jenkinsci.plugins.workflow.cps.SandboxContinuable.lambda$run0$0(SandboxContinuable.java:59)
+	at org.jenkinsci.plugins.scriptsecurity.sandbox.groovy.GroovySandbox.runInSandbox(GroovySandbox.java:108)
+	at org.jenkinsci.plugins.workflow.cps.SandboxContinuable.run0(SandboxContinuable.java:58)
+	at org.jenkinsci.plugins.workflow.cps.CpsThread.runNextChunk(CpsThread.java:182)
+	at org.jenkinsci.plugins.workflow.cps.CpsThreadGroup.run(CpsThreadGroup.java:332)
+	at org.jenkinsci.plugins.workflow.cps.CpsThreadGroup.access$200(CpsThreadGroup.java:83)
+	at org.jenkinsci.plugins.workflow.cps.CpsThreadGroup$2.call(CpsThreadGroup.java:244)
+	at org.jenkinsci.plugins.workflow.cps.CpsThreadGroup$2.call(CpsThreadGroup.java:232)
+	at org.jenkinsci.plugins.workflow.cps.CpsVmExecutorService$2.call(CpsVmExecutorService.java:64)
+	at java.util.concurrent.FutureTask.run(FutureTask.java:266)
+	at hudson.remoting.SingleLaneExecutorService$1.run(SingleLaneExecutorService.java:131)
+	at jenkins.util.ContextResettingExecutorService$1.run(ContextResettingExecutorService.java:28)
+	at jenkins.security.ImpersonatingExecutorService$1.run(ImpersonatingExecutorService.java:59)
+	at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)
+	at java.util.concurrent.FutureTask.run(FutureTask.java:266)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+	at java.lang.Thread.run(Thread.java:748)
+  23.940 [id=53]	WARNING	o.j.plugins.workflow.cps.DSL#invokeStep: Error storing the arguments for step: checkout
+org.kohsuke.stapler.NoStaplerConstructorException: There's no @DataBoundConstructor on any constructor of class io.jenkins.jenkinsfile.runner.FileSystemSCM
+	at org.kohsuke.stapler.ClassDescriptor.loadConstructorParamNames(ClassDescriptor.java:265)
+	at org.jenkinsci.plugins.structs.describable.DescribableModel.<init>(DescribableModel.java:144)
+	at org.jenkinsci.plugins.structs.describable.DescribableModel.of(DescribableModel.java:114)
+	at org.jenkinsci.plugins.workflow.cps.actions.ArgumentsActionImpl.sanitizeObjectAndRecordMutation(ArgumentsActionImpl.java:294)
+	at org.jenkinsci.plugins.workflow.cps.actions.ArgumentsActionImpl.sanitizeMapAndRecordMutation(ArgumentsActionImpl.java:386)
+	at org.jenkinsci.plugins.workflow.cps.actions.ArgumentsActionImpl.<init>(ArgumentsActionImpl.java:74)
+	at org.jenkinsci.plugins.workflow.cps.DSL.invokeStep(DSL.java:245)
+	at org.jenkinsci.plugins.workflow.cps.DSL.invokeMethod(DSL.java:178)
+	at org.jenkinsci.plugins.workflow.cps.CpsScript.invokeMethod(CpsScript.java:122)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.codehaus.groovy.reflection.CachedMethod.invoke(CachedMethod.java:93)
+	at groovy.lang.MetaMethod.doMethodInvoke(MetaMethod.java:325)
+	at groovy.lang.MetaClassImpl.invokeMethod(MetaClassImpl.java:1213)
+	at groovy.lang.MetaClassImpl.invokeMethod(MetaClassImpl.java:1022)
+	at org.codehaus.groovy.runtime.callsite.PogoMetaClassSite.call(PogoMetaClassSite.java:42)
+	at org.codehaus.groovy.runtime.callsite.CallSiteArray.defaultCall(CallSiteArray.java:48)
+	at org.codehaus.groovy.runtime.callsite.AbstractCallSite.call(AbstractCallSite.java:113)
+	at org.kohsuke.groovy.sandbox.impl.Checker$1.call(Checker.java:157)
+	at org.kohsuke.groovy.sandbox.GroovyInterceptor.onMethodCall(GroovyInterceptor.java:23)
+	at org.jenkinsci.plugins.scriptsecurity.sandbox.groovy.SandboxInterceptor.onMethodCall(SandboxInterceptor.java:155)
+	at org.kohsuke.groovy.sandbox.impl.Checker$1.call(Checker.java:155)
+	at org.kohsuke.groovy.sandbox.impl.Checker.checkedCall(Checker.java:159)
+	at org.kohsuke.groovy.sandbox.impl.Checker.checkedCall(Checker.java:129)
+	at org.kohsuke.groovy.sandbox.impl.Checker.checkedCall(Checker.java:129)
+	at com.cloudbees.groovy.cps.sandbox.SandboxInvoker.methodCall(SandboxInvoker.java:17)
+	at com.cloudbees.groovy.cps.impl.ContinuationGroup.methodCall(ContinuationGroup.java:57)
+	at com.cloudbees.groovy.cps.impl.FunctionCallBlock$ContinuationImpl.dispatchOrArg(FunctionCallBlock.java:109)
+	at com.cloudbees.groovy.cps.impl.FunctionCallBlock$ContinuationImpl.fixArg(FunctionCallBlock.java:82)
+	at sun.reflect.GeneratedMethodAccessor139.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at com.cloudbees.groovy.cps.impl.ContinuationPtr$ContinuationImpl.receive(ContinuationPtr.java:72)
+	at com.cloudbees.groovy.cps.impl.PropertyishBlock$ContinuationImpl.get(PropertyishBlock.java:76)
+	at com.cloudbees.groovy.cps.LValueBlock$GetAdapter.receive(LValueBlock.java:30)
+	at com.cloudbees.groovy.cps.impl.PropertyishBlock$ContinuationImpl.fixName(PropertyishBlock.java:66)
+	at sun.reflect.GeneratedMethodAccessor144.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at com.cloudbees.groovy.cps.impl.ContinuationPtr$ContinuationImpl.receive(ContinuationPtr.java:72)
+	at com.cloudbees.groovy.cps.impl.ConstantBlock.eval(ConstantBlock.java:21)
+	at com.cloudbees.groovy.cps.Next.step(Next.java:83)
+	at com.cloudbees.groovy.cps.Continuable$1.call(Continuable.java:174)
+	at com.cloudbees.groovy.cps.Continuable$1.call(Continuable.java:163)
+	at org.codehaus.groovy.runtime.GroovyCategorySupport$ThreadCategoryInfo.use(GroovyCategorySupport.java:129)
+	at org.codehaus.groovy.runtime.GroovyCategorySupport.use(GroovyCategorySupport.java:268)
+	at com.cloudbees.groovy.cps.Continuable.run0(Continuable.java:163)
+	at org.jenkinsci.plugins.workflow.cps.SandboxContinuable.access$101(SandboxContinuable.java:34)
+	at org.jenkinsci.plugins.workflow.cps.SandboxContinuable.lambda$run0$0(SandboxContinuable.java:59)
+	at org.jenkinsci.plugins.scriptsecurity.sandbox.groovy.GroovySandbox.runInSandbox(GroovySandbox.java:108)
+	at org.jenkinsci.plugins.workflow.cps.SandboxContinuable.run0(SandboxContinuable.java:58)
+	at org.jenkinsci.plugins.workflow.cps.CpsThread.runNextChunk(CpsThread.java:182)
+	at org.jenkinsci.plugins.workflow.cps.CpsThreadGroup.run(CpsThreadGroup.java:332)
+	at org.jenkinsci.plugins.workflow.cps.CpsThreadGroup.access$200(CpsThreadGroup.java:83)
+	at org.jenkinsci.plugins.workflow.cps.CpsThreadGroup$2.call(CpsThreadGroup.java:244)
+	at org.jenkinsci.plugins.workflow.cps.CpsThreadGroup$2.call(CpsThreadGroup.java:232)
+	at org.jenkinsci.plugins.workflow.cps.CpsVmExecutorService$2.call(CpsVmExecutorService.java:64)
+	at java.util.concurrent.FutureTask.run(FutureTask.java:266)
+	at hudson.remoting.SingleLaneExecutorService$1.run(SingleLaneExecutorService.java:131)
+	at jenkins.util.ContextResettingExecutorService$1.run(ContextResettingExecutorService.java:28)
+	at jenkins.security.ImpersonatingExecutorService$1.run(ImpersonatingExecutorService.java:59)
+	at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)
+	at java.util.concurrent.FutureTask.run(FutureTask.java:266)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+	at java.lang.Thread.run(Thread.java:748)
+[Pipeline] checkout
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] withCredentials
+[Pipeline] {
+[Pipeline] withEnv
+[Pipeline] {
+[Pipeline] stage
+[Pipeline] { (CI Build and push snapshot)
+[Pipeline] withEnv
+[Pipeline] {
+[Pipeline] dir
+Running in /home/jenkins/go/src/github.com/carlossg/croc-hunter-jenkinsx-serverless
+[Pipeline] {
+[Pipeline] checkout
+[Pipeline] sh
++ make VERSION=0.0.0-SNAPSHOT-PR-29-2 GIT_COMMIT=64b9b884b61379b6947aebdc7871110df6653731 linux
+cp skaffold.yaml skaffold.yaml.new
+sed -i -e "s/{{.VERSION}}/0.0.0-SNAPSHOT-PR-29-2/" skaffold.yaml.new
+sed -i -e "s/{{.GIT_COMMIT}}/64b9b884b61379b6947aebdc7871110df6653731/" skaffold.yaml.new
+CGO_ENABLED=0 GOOS=linux GOARCH=amd64 GO15VENDOREXPERIMENT=1 go build -ldflags '' -o bin/croc-hunter-jenkinsx croc-hunter.go
+[Pipeline] sh
++ export VERSION=0.0.0-SNAPSHOT-PR-29-2
++ skaffold build -f skaffold.yaml.new
+time="2019-01-02T17:58:31Z" level=warning msg="config version (skaffold/v1alpha2) out of date: upgrading to latest (skaffold/v1beta1)"
+Starting build...
+Building [changeme]...
+Sending build context to Docker daemon  525.8kBSending build context to Docker daemon  6.892MB
+Step 1/10 : FROM scratch
+ ---> 
+Step 2/10 : ARG GIT_SHA
+ ---> Using cache
+ ---> e90aa5c004eb
+Step 3/10 : ARG WORKFLOW_RELEASE
+ ---> Using cache
+ ---> f3ac0d7532e0
+Step 4/10 : ENV GIT_SHA $GIT_SHA
+ ---> Running in 34bdd0eb6c6a
+ ---> 054f4efa4ae6
+Step 5/10 : ENV WORKFLOW_RELEASE $WORKFLOW_RELEASE
+ ---> Running in 2cce696f29d1
+ ---> bf1f50fd2e99
+Step 6/10 : ENV POWERED_BY Jenkins-X
+ ---> Running in d28774f67ef6
+ ---> 867d698f1644
+Step 7/10 : EXPOSE 8080
+ ---> Running in 8e9a4b2669c9
+ ---> 965041436eca
+Step 8/10 : ENTRYPOINT /croc-hunter-jenkinsx
+ ---> Running in 0e3b0c5ffafa
+ ---> 436cbd400446
+Step 9/10 : COPY ./bin/ /
+ ---> 34dc97a0ef92
+Step 10/10 : COPY static/ static/
+ ---> 573467be13ce
+Successfully built 573467be13ce
+The push refers to a repository [10.63.246.66:5000/carlossg/croc-hunter-jenkinsx]
+ab7dac56ee5c: Preparing
+a1aa901fd20a: Preparing
+ab7dac56ee5c: Pushed
+a1aa901fd20a: Pushed
+0.0.0-SNAPSHOT-PR-29-2: digest: sha256:b38b874e642df62433a2169a632a0c605a862601fb8d4da026231ec40830c094 size: 738
+Build complete in 3.317903882s
+Starting test...
+Test complete in 5.986µs
+changeme -> 10.63.246.66:5000/carlossg/croc-hunter-jenkinsx:0.0.0-SNAPSHOT-PR-29-2
+There is a new version (0.20.0) of skaffold available. Download it at https://storage.googleapis.com/skaffold/releases/latest/skaffold-linux-amd64
+
+[Pipeline] sh
++ jx step validate --min-jx-version 1.2.36
+[Pipeline] sh
++ jx step post build --image 10.63.246.66:5000/carlossg/croc-hunter-jenkinsx:0.0.0-SNAPSHOT-PR-29-2
+[Pipeline] }
+[Pipeline] // dir
+[Pipeline] dir
+Running in /home/jenkins/go/src/github.com/carlossg/croc-hunter-jenkinsx-serverless/charts/preview
+[Pipeline] {
+[Pipeline] sh
++ make preview
+sed -i -e "s/version:.*/version: 0.0.0-SNAPSHOT-PR-29-2/" Chart.yaml
+sed -i -e "s/version:.*/version: 0.0.0-SNAPSHOT-PR-29-2/" ../*/Chart.yaml
+sed -i -e "s|repository: .*|repository: 10.63.246.66:5000\/carlossg\/golang-http|" values.yaml
+sed -i -e "s/tag: .*/tag: 0.0.0-SNAPSHOT-PR-29-2/" values.yaml
+echo "  version: 0.0.0-SNAPSHOT-PR-29-2" >> requirements.yaml
+jx step helm build
+No $CHART_REPOSITORY defined so using the default value of: http://jenkins-x-chartmuseum:8080
+Adding missing Helm repo: jenkins-x http://chartmuseum.jenkins-x.io
+Successfully added Helm repository jenkins-x.
+Adding missing Helm repo: releases http://jenkins-x-chartmuseum:8080
+Successfully added Helm repository releases.
+Adding missing Helm repo: repo5 https://chartmuseum.build.cd.jenkins-x.io
+Successfully added Helm repository repo5.
+[Pipeline] sh
++ jx preview --app croc-hunter-jenkinsx --dir ../..
+Creating a preview
+Commit author email is empty for: da70b8574e58ba3cb33325707df181c2e0eee07d
+Looking for commits in: /home/jenkins/go/src/github.com/carlossg/croc-hunter-jenkinsx-serverless/
+Commit not found: da70b8574e58ba3cb33325707df181c2e0eee07d
+Commit author email is empty for: 64b9b884b61379b6947aebdc7871110df6653731
+Looking for commits in: /home/jenkins/go/src/github.com/carlossg/croc-hunter-jenkinsx-serverless/
+CreateOrUpdateUser: carlossg <carlos@apache.org>
+Existing user found: carlos@apache.org
+expose:
+  Annotations:
+    helm.sh/hook: post-install,post-upgrade
+    helm.sh/hook-delete-policy: hook-succeeded
+  config:
+    domain: us.g.csanchez.org
+    exposer: Ingress
+    http: "true"
+preview:
+  image:
+    repository: 10.63.246.66:5000/carlossg/croc-hunter-jenkinsx
+    tag: 0.0.0-SNAPSHOT-PR-29-2
+Updating PipelineActivities carlossg-croc-hunter-jenkinsx-serverless-pr-29-2 which has status Running
+Preview application is now available at: http://croc-hunter-jenkinsx.jx-carlossg-croc-hunter-jenkinsx-serverless-pr-29.us.g.csanchez.org
+
+[Pipeline] }
+[Pipeline] // dir
+[Pipeline] }
+[Pipeline] // withEnv
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Build Release)
+Stage "Build Release" skipped due to when conditional
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Promote to Environments)
+Stage "Promote to Environments" skipped due to when conditional
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] }
+[Pipeline] // withEnv
+[Pipeline] }
+[Pipeline] // withCredentials
+[Pipeline] }
+[Pipeline] // node
+[Pipeline] End of Pipeline
+Finished: SUCCESS
