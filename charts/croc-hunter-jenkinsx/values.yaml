@@ -9,7 +9,7 @@ image:
 service:
   name: croc-hunter-jenkinsx
   type: NodePort
-  nodePort: 30061
+  nodePort: 30099
   externalPort: 80
   internalPort: 8080
   annotations:
