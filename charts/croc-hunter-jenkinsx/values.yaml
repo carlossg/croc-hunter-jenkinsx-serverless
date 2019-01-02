@@ -8,7 +8,7 @@ image:
   pullPolicy: IfNotPresent
 service:
   name: croc-hunter-jenkinsx
-  type: ClusterIP
+  type: NodePort
   externalPort: 80
   internalPort: 8080
   annotations:
