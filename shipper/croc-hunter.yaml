@@ -1,0 +1,48 @@
+apiVersion: shipper.booking.com/v1alpha1
+kind: Application
+metadata:
+  namespace: test
+  name: croc-hunter
+spec:
+  revisionHistoryLimit: 3
+  template:
+    chart:
+      name: croc-hunter-jenkinsx
+      repoUrl: https://chartmuseum.jx.us.g.csanchez.org/charts
+      version: 0.0.75
+    clusterRequirements:
+      regions:
+      - name: us
+      - name: europe
+    strategy:
+      steps:
+      - name: staging
+        capacity:
+          contender: 1
+          incumbent: 100
+        traffic:
+          contender: 0
+          incumbent: 100
+      - name: 50/50
+        capacity:
+          contender: 50
+          incumbent: 50
+        traffic:
+          contender: 50
+          incumbent: 50
+      - name: full on
+        capacity:
+          contender: 100
+          incumbent: 0
+        traffic:
+          contender: 100
+          incumbent: 0
+    values:
+      replicaCount: 3
+      image:
+        repository: docker-registry.jx.us.g.csanchez.org/carlossg/croc-hunter-jenkinsx
+      # for GKE multicluster ingress
+      service:
+        type: NodePort
+        nodePort: 30099
+

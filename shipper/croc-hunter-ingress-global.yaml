@@ -1,0 +1,22 @@
+# Multi cluster ingress
+# Access croc-hunter service deployed in US and EU clusters
+# https://cloud.google.com/kubernetes-engine/docs/how-to/multi-cluster-ingress
+
+# KUBECONFIG=~/.kube/config-mci gcloud container clusters get-credentials --zone=us-central1-a US_CLUSTER
+# KUBECONFIG=~/.kube/config-mci gcloud container clusters get-credentials --zone=europe-west4-a EU_CLUSTER
+# gcloud compute addresses create --global croc-hunter-mci-ip
+# kubemci create ingress-croc-hunter-mci --ingress=croc-hunter-ingress-global.yaml --gcp-project=PROJECT_ID --kubeconfig=~/.kube/config-mci
+
+
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  namespace: test
+  name: ingress-croc-hunter-mci
+  annotations:
+    kubernetes.io/ingress.global-static-ip-name: croc-hunter-mci-ip
+    kubernetes.io/ingress.class: gce-multi-cluster
+spec:
+  backend:
+    serviceName: croc-hunter-jenkinsx
+    servicePort: 80
