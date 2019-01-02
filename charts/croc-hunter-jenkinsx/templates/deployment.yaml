@@ -8,8 +8,9 @@ metadata:
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
-    draft: {{ default "draft-app" .Values.draft }}
-    app: {{ template "fullname" . }}
+    matchLabels:
+      draft: {{ default "draft-app" .Values.draft }}
+      app: {{ template "fullname" . }}
   template:
     metadata:
       labels:
