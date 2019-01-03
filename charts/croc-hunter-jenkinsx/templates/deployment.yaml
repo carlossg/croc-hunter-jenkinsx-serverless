@@ -10,7 +10,11 @@ spec:
   selector:
     matchLabels:
       draft: {{ default "draft-app" .Values.draft }}
+{{- if .Values.appLabel }}
+      app: {{ .Values.appLabel }}
+{{- else }}
       app: {{ template "fullname" . }}
+{{- end }}
   template:
     metadata:
       labels:
