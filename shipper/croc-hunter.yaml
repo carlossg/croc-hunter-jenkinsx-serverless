@@ -9,7 +9,7 @@ spec:
     chart:
       name: croc-hunter-jenkinsx
       repoUrl: https://chartmuseum.jx.us.g.csanchez.org/charts
-      version: 0.0.75
+      version: 0.0.81
     clusterRequirements:
       regions:
       - name: us
@@ -39,6 +39,7 @@ spec:
           incumbent: 0
     values:
       replicaCount: 3
+      appLabel: croc-hunter
       image:
         repository: docker-registry.jx.us.g.csanchez.org/carlossg/croc-hunter-jenkinsx
       # for GKE multicluster ingress
