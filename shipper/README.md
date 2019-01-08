@@ -15,15 +15,22 @@ applicationClusters:
 - name: gke-CLUSTER_NAME_EU
   region: europe
   context: gke_PROJECT_ID_europe-west4-a_CLUSTER_NAME_EU
+- name: gke-CLUSTER_NAME_STAGING
+  region: staging
+  context: gke_PROJECT_ID_us-central1-a_CLUSTER_NAME_STAGING
 ```
 
 Apply the cluster configuration
 
     shipperctl admin clusters apply -f clusters.yaml
 
-Deploy croc-hunter
+Deploy croc-hunter to staging cluster
 
-    kubectl apply -f croc-hunter.yaml
+    kubectl apply -f croc-hunter-staging.yaml
+
+Deploy croc-hunter to production clusters
+
+    kubectl apply -f croc-hunter-staging.yaml
 
 Edit the created release object to roll out
 
