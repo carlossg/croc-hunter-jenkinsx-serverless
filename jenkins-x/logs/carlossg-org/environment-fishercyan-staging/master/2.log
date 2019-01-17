@@ -1,0 +1,15 @@
+Step: build-step-credential-initializer:
+
+Step: build-step-git-source:
+
+Step: build-step-apply:
+
+Modified file /workspace/env/Chart.yaml to set the chart to version 2
+Adding missing Helm repo: jenkins-x http://chartmuseum.jenkins-x.io
+Successfully added Helm repository jenkins-x.
+Adding missing Helm repo: releases http://jenkins-x-chartmuseum:8080
+Successfully added Helm repository releases.
+Applying helm chart at . as release name jx-staging to namespace jx-staging
+no Vault found and no file 'secrets.yaml' exists in directory '.'
+Using values files: values.yaml
+error: upgrading helm chart '.': failed to run 'helm upgrade --namespace jx-staging --install --wait --force --timeout 600 --values values.yaml jx-staging .' command in directory '.', output: 'Error: UPGRADE FAILED: timed out waiting for the condition': exit status 1
