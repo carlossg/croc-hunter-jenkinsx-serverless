@@ -46,8 +46,11 @@ func main() {
 			if err != nil {
 				log.Printf("could not get region: %s", err)
 			}
-			defer resp.Body.Close()
+			if resp.StatusCode < 200 || resp.StatusCode >= 300 {
+				log.Printf("could not get region: %s", http.StatusText(resp.StatusCode))
+			}
 			body, err := ioutil.ReadAll(resp.Body)
+			resp.Body.Close()
 			if err != nil {
 				log.Printf("could not read region response: %s", err)
 			} else {
