@@ -8,7 +8,6 @@ import (
 	"log"
 	"net/http"
 	"os"
-	"time"
 )
 
 var release = os.Getenv("WORKFLOW_RELEASE")
@@ -38,37 +37,27 @@ func main() {
 	}
 	// get region
 
-	for i := 0; i < 30; i++ {
-		req, err := http.NewRequest("GET", "http://metadata/computeMetadata/v1/instance/attributes/cluster-location", nil)
-		if err == nil {
-			req.Header.Set("Metadata-Flavor", "Google")
-			resp, err := http.DefaultClient.Do(req)
-			if err != nil {
-				log.Printf("could not get region: %s", err)
-				continue
-			}
-			if resp.StatusCode < 200 || resp.StatusCode >= 300 {
-				log.Printf("could not get region: %s", http.StatusText(resp.StatusCode))
-				continue
-			}
-			body, err := ioutil.ReadAll(resp.Body)
-			resp.Body.Close()
-			if err != nil {
-				log.Printf("could not read region response: %s", err)
-			} else {
-				region = string(body)
-			}
-		} else {
-			log.Printf("could not build region request: %s", err)
+	req, err := http.NewRequest("GET", "http://metadata.google.internal/computeMetadata/v1/instance/attributes/cluster-location", nil)
+	if err == nil {
+		req.Header.Set("Metadata-Flavor", "Google")
+		resp, err := http.DefaultClient.Do(req)
+		if err != nil {
+			log.Fatalf("could not get region: %s", err)
 		}
-		if region == "" {
-			log.Printf("failed to get region, retrying")
-			time.Sleep(1 * time.Second)
-		} else {
-			log.Printf("region: %s", region)
-			break
+		if resp.StatusCode < 200 || resp.StatusCode >= 300 {
+			log.Fatalf("could not get region: %s", http.StatusText(resp.StatusCode))
 		}
+		body, err := ioutil.ReadAll(resp.Body)
+		resp.Body.Close()
+		if err != nil {
+			log.Fatalf("could not read region response: %s", err)
+		} else {
+			region = string(body)
+		}
+	} else {
+		log.Fatalf("could not build region request: %s", err)
 	}
+	log.Printf("region: %s", region)
 
 	// point / at the handler function
 	http.HandleFunc("/", handler)
