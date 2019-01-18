@@ -1,0 +1,14 @@
+# Allow calls to http://metadata.google.internal
+apiVersion: networking.istio.io/v1alpha3
+kind: ServiceEntry
+metadata:
+  name: external-google-api
+  namespace: jx-production
+spec:
+  hosts:
+  - metadata.google.internal
+  location: MESH_EXTERNAL
+  ports:
+  - number: 80
+    name: http
+    protocol: HTTP
