@@ -12,5 +12,3 @@ Successfully added Helm repository releases.
 Applying helm chart at . as release name jx-production to namespace jx-production
 no Vault found and no file 'secrets.yaml' exists in directory '.'
 Using values files: values.yaml
-error: upgrading helm chart '.': failed to run 'helm upgrade --namespace jx-production --install --wait --force --timeout 600 --values values.yaml jx-production .' command in directory '.', output: 'Release "jx-production" does not exist. Installing it now.
-Error: jobs.batch "expose" already exists': exit status 1
