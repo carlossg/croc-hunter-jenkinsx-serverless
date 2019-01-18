@@ -8,6 +8,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"time"
 )
 
 var release = os.Getenv("WORKFLOW_RELEASE")
@@ -36,23 +37,32 @@ func main() {
 		powered = "deis"
 	}
 	// get region
-	req, err := http.NewRequest("GET", "http://metadata/computeMetadata/v1/instance/attributes/cluster-location", nil)
-	if err == nil {
-		req.Header.Set("Metadata-Flavor", "Google")
-		resp, err := http.DefaultClient.Do(req)
-		if err != nil {
-			log.Fatalf("could not get region: %s", err)
-		}
-		defer resp.Body.Close()
-		body, err := ioutil.ReadAll(resp.Body)
-		if err != nil {
-			log.Fatalf("could not read region response: %s", err)
+
+	for i := 0; i < 30; i++ {
+		req, err := http.NewRequest("GET", "http://metadata/computeMetadata/v1/instance/attributes/cluster-location", nil)
+		if err == nil {
+			req.Header.Set("Metadata-Flavor", "Google")
+			resp, err := http.DefaultClient.Do(req)
+			if err != nil {
+				log.Printf("could not get region: %s", err)
+			}
+			defer resp.Body.Close()
+			body, err := ioutil.ReadAll(resp.Body)
+			if err != nil {
+				log.Printf("could not read region response: %s", err)
+			} else {
+				region = string(body)
+				log.Printf("region: %s", region)
+			}
 		} else {
-			region = string(body)
-			log.Printf("region: %s", region)
+			log.Printf("could not build region request: %s", err)
 		}
-	} else {
-		log.Fatalf("could not build region request: %s", err)
+		if region == "" {
+			log.Printf("failed to get region, retrying")
+			time.Sleep(1 * time.Second)
+		} else {
+			break
+		}
 	}
 
 	// point / at the handler function
