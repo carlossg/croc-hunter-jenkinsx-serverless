@@ -49,6 +49,7 @@ func main() {
 			log.Fatalf("could not read region response: %s", err)
 		} else {
 			region = string(body)
+			log.Printf("region: %s", region)
 		}
 	} else {
 		log.Fatalf("could not build region request: %s", err)
