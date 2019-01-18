@@ -12,12 +12,17 @@ spec:
   http:
   - route:
     - destination:
-        host: croc-hunter-jenkinsx.jx-staging.svc.cluster.local
-        port:
-          number: 80
-      weight: 50
-    - destination:
         host: croc-hunter-jenkinsx.jx-production.svc.cluster.local
         port:
           number: 80
       weight: 50
+    - destination:
+        host: croc-hunter-jenkinsx.jx-staging.svc.cluster.local
+        port:
+          number: 80
+      weight: 50
+    # - destination:
+    #     host: croc-hunter-jenkinsx.jx-carlossg-croc-hunter-jenkinsx-serverless-pr-35.svc.cluster.local
+    #     port:
+    #       number: 80
+    #   weight: 50
