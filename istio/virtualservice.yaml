@@ -1,0 +1,28 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: croc-hunter-jenkinsx
+  namespace: jx-production
+spec:
+  gateways:
+  - public-gateway.istio-system.svc.cluster.local
+  - mesh
+  hosts:
+  - croc-hunter.istio.us.g.csanchez.org
+  http:
+  - route:
+    - destination:
+        host: croc-hunter-jenkinsx.jx-production.svc.cluster.local
+        port:
+          number: 80
+      weight: 50
+    - destination:
+        host: croc-hunter-jenkinsx.jx-staging.svc.cluster.local
+        port:
+          number: 80
+      weight: 50
+    # - destination:
+    #     host: croc-hunter-jenkinsx.jx-carlossg-croc-hunter-jenkinsx-serverless-pr-35.svc.cluster.local
+    #     port:
+    #       number: 80
+    #   weight: 50
