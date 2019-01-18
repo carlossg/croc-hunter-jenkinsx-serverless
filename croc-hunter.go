@@ -45,9 +45,11 @@ func main() {
 			resp, err := http.DefaultClient.Do(req)
 			if err != nil {
 				log.Printf("could not get region: %s", err)
+				continue
 			}
 			if resp.StatusCode < 200 || resp.StatusCode >= 300 {
 				log.Printf("could not get region: %s", http.StatusText(resp.StatusCode))
+				continue
 			}
 			body, err := ioutil.ReadAll(resp.Body)
 			resp.Body.Close()
@@ -55,7 +57,6 @@ func main() {
 				log.Printf("could not read region response: %s", err)
 			} else {
 				region = string(body)
-				log.Printf("region: %s", region)
 			}
 		} else {
 			log.Printf("could not build region request: %s", err)
@@ -64,6 +65,7 @@ func main() {
 			log.Printf("failed to get region, retrying")
 			time.Sleep(1 * time.Second)
 		} else {
+			log.Printf("region: %s", region)
 			break
 		}
 	}
