@@ -26,10 +26,11 @@ spec:
     - public-gateway.istio-system.svc.cluster.local
     # Istio virtual service host names (optional)
     hosts:
-    - croc-hunter.istio.g.csanchez.org
+    - croc-hunter.istio.us.g.csanchez.org
+    - croc-hunter.istio.eu.g.csanchez.org
   canaryAnalysis:
     # schedule interval (default 60s)
-    interval: 1m
+    interval: 15s
     # max number of failed metric checks before rollback
     threshold: 5
     # max traffic percentage routed to canary
@@ -43,7 +44,7 @@ spec:
       # minimum req success rate (non 5xx responses)
       # percentage (0-100)
       threshold: 99
-      interval: 1m
+      interval: 30s
     - name: istio_request_duration_seconds_bucket
       # maximum req duration P99
       # milliseconds
