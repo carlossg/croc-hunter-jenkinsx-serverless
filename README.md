@@ -6,6 +6,13 @@ For those that have dreamt to hunt crocs
 
 Basic go webserver to demonstrate example CI/CD pipeline using Kubernetes
 
+## Injecting Delays and Errors
+
+Making requests to these urls will cause the app to delay the response or to respond with an error, and can be useful to simulate real life errors.
+
+    /delay?wait=5
+    /status?code=500
+
 # Deploy using JenkinsX (Kubernetes, Helm, Monocular, ChartMuseum)
 
 Just follow the [JenkinsX](http://jenkins-x.io) installation with `--prow=true`

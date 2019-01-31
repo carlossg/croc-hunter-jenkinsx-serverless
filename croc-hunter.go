@@ -8,6 +8,8 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"strconv"
+	"time"
 )
 
 var release = os.Getenv("WORKFLOW_RELEASE")
@@ -101,6 +103,24 @@ func handler(w http.ResponseWriter, r *http.Request) {
 
 	if r.URL.Path == "/healthz" {
 		w.WriteHeader(http.StatusOK)
+		return
+	}
+
+	if r.URL.Path == "/delay" {
+		delay, _ := strconv.Atoi(r.URL.Query().Get("wait"))
+		if delay <= 0 {
+			delay = 10
+		}
+		time.Sleep(time.Duration(delay) * time.Second)
+		w.WriteHeader(http.StatusOK)
+		fmt.Fprintf(w, "{delay: %d}", delay)
+		return
+	}
+
+	if r.URL.Path == "/status" {
+		code, _ := strconv.Atoi(r.URL.Query().Get("code"))
+		w.WriteHeader(code)
+		fmt.Fprintf(w, "{code: %d}", code)
 		return
 	}
 

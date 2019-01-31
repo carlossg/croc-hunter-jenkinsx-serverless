@@ -1,9 +1,9 @@
+{{- if eq .Release.Namespace "jx-production" }}
 apiVersion: flagger.app/v1alpha2
 kind: Canary
 metadata:
   # canary name must match deployment name
   name: jx-production-croc-hunter-jenkinsx
-  namespace: jx-production
 spec:
   # deployment reference
   targetRef:
@@ -50,3 +50,4 @@ spec:
       # milliseconds
       threshold: 500
       interval: 30s
+{{- end }}

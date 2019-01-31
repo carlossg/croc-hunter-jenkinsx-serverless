@@ -4,6 +4,7 @@ Install [Istio](https://istio.io/docs/setup/kubernetes/quick-start/)
 
 ## Access from the Internet using Istio ingress gateway
 
+Istio will route the traffic entering through the ingress gateway.
 Find the [ingress gateway ip address](https://istio.io/docs/tasks/traffic-management/ingress/#determining-the-ingress-ip-and-ports) and configure a wildcard DNS for it.
 
 For example map `*.example.com` to
@@ -24,8 +25,8 @@ If you need to access the service through Istio from inside the cluster (not nee
 
 Enable Istio in the jx-staging and jx-production namespaces
 
-    kubectl patch ns jx-carlossg-croc-hunter-jenkinsx-serverless-pr-35 --type=json -p='[{"op": "add", "path": "/metadata/labels/istio-injection", "value": "enabled"}]'
-    kubectl patch ns jx-production --type=json -p='[{"op": "add", "path": "/metadata/labels/istio-injection", "value": "enabled"}]'
+    kubectl label namespace jx-staging istio-injection=enabled
+    kubectl label namespace jx-production istio-injection=enabled
 
 Optional: Create a `ServiceEntry` to allow traffic to the Google metadata api to display the region
 
