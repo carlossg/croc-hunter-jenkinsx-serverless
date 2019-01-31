@@ -1,28 +1,27 @@
-apiVersion: skaffold/v1alpha2
+apiVersion: skaffold/v1beta1
 kind: Config
 build:
-  tagPolicy:
-    envTemplate:
-      template: "{{.DOCKER_REGISTRY}}/carlossg/croc-hunter-jenkinsx:{{.VERSION}}"
   artifacts:
-  - imageName: changeme
-    workspace: .
+  - image: changeme
+    context: .
     docker:
       buildArgs:
-        GIT_SHA: "{{.GIT_COMMIT}}"
-        WORKFLOW_RELEASE: "{{.VERSION}}"
+        GIT_SHA: '{{.GIT_COMMIT}}'
+        WORKFLOW_RELEASE: '{{.VERSION}}'
+  tagPolicy:
+    envTemplate:
+      template: '{{.DOCKER_REGISTRY}}/carlossg/croc-hunter-jenkinsx:{{.VERSION}}'
   local: {}
 deploy:
-  kubectl:
-    manifests:
+  kubectl: {}
 profiles:
 - name: dev
   build:
-    tagPolicy:
-      envTemplate:
-        template: "{{.DOCKER_REGISTRY}}/carlossg/croc-hunter-jenkinsx:{{.DIGEST_HEX}}"
     artifacts:
     - docker: {}
+    tagPolicy:
+      envTemplate:
+        template: '{{.DOCKER_REGISTRY}}/carlossg/croc-hunter-jenkinsx:{{.DIGEST_HEX}}'
     local: {}
   deploy:
     helm:
@@ -30,5 +29,5 @@ profiles:
       - name: croc-hunter-jenkinsx
         chartPath: charts/croc-hunter-jenkinsx
         setValueTemplates:
-          image.repository: "{{.DOCKER_REGISTRY}}/carlossg/croc-hunter-jenkinsx"
-          image.tag: "{{.TAG}}"
+          image.repository: '{{.DOCKER_REGISTRY}}/carlossg/croc-hunter-jenkinsx'
+          image.tag: '{{.TAG}}'
