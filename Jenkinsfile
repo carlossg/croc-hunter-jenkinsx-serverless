@@ -5,6 +5,7 @@ pipeline {
       APP_NAME          = 'croc-hunter-jenkinsx'
       GIT_PROVIDER      = 'github.com'
       CHARTMUSEUM_CREDS = credentials('jenkins-x-chartmuseum')
+      SKAFFOLD_UPDATE_CHECK = 'false'
     }
     stages {
       stage('CI Build and push snapshot') {
