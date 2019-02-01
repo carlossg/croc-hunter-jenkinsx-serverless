@@ -38,7 +38,7 @@ pipeline {
         }
         steps {
           dir ('/home/jenkins/go/src/github.com/carlossg/croc-hunter-jenkinsx-serverless') {
-            git 'https://github.com/carlossg/croc-hunter-jenkinsx-serverless.git'
+            checkout scm
           }
           dir ('/home/jenkins/go/src/github.com/carlossg/croc-hunter-jenkinsx-serverless/charts/croc-hunter-jenkinsx') {
             // until we switch to the new kubernetes / jenkins credential implementation use git credentials store
