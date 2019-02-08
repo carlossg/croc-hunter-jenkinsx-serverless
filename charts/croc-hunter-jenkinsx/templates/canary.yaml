@@ -1,53 +1,44 @@
 {{- if eq .Release.Namespace "jx-production" }}
+{{- if eq .Values.canary.enable "true" }}
 apiVersion: flagger.app/v1alpha2
 kind: Canary
 metadata:
   # canary name must match deployment name
-  name: jx-production-croc-hunter-jenkinsx
+  name: jx-production-{{ template "fullname" . }}
 spec:
   # deployment reference
   targetRef:
     apiVersion: apps/v1
     kind: Deployment
-    name: jx-production-croc-hunter-jenkinsx
-  # HPA reference (optional)
-  # autoscalerRef:
-  #   apiVersion: autoscaling/v2beta1
-  #   kind: HorizontalPodAutoscaler
-  #   name: jx-production-croc-hunter-jenkinsx
-  # the maximum time in seconds for the canary deployment
-  # to make progress before it is rollback (default 600s)
+    name: jx-production-{{ template "fullname" . }}
   progressDeadlineSeconds: 60
   service:
     # container port
-    port: 8080
+    port: .Values.service.internalPort
+{{- if .Values.canary.service.gateways }}
     # Istio gateways (optional)
     gateways:
-    - public-gateway.istio-system.svc.cluster.local
+{{ toYaml .Values.canary.service.gateways | indent 4 }}
+{{- end }}
+{{- if .Values.canary.service.hosts }}
     # Istio virtual service host names (optional)
     hosts:
-    - croc-hunter.istio.us.g.csanchez.org
-    - croc-hunter.istio.eu.g.csanchez.org
+{{ toYaml .Values.canary.service.hosts | indent 4 }}
+{{- end }}
   canaryAnalysis:
     # schedule interval (default 60s)
-    interval: 30s
+    interval: {{ .Values.canary.canaryAnalysis.interval }}
     # max number of failed metric checks before rollback
-    threshold: 5
+    threshold: {{ .Values.canary.canaryAnalysis.threshold }}
     # max traffic percentage routed to canary
     # percentage (0-100)
-    maxWeight: 50
+    maxWeight: {{ .Values.canary.canaryAnalysis.maxWeight }}
     # canary increment step
     # percentage (0-100)
-    stepWeight: 10
+    stepWeight: {{ .Values.canary.canaryAnalysis.stepWeight }}
+{{- if .Values.canary.canaryAnalysis.metrics }}
     metrics:
-    - name: istio_requests_total
-      # minimum req success rate (non 5xx responses)
-      # percentage (0-100)
-      threshold: 99
-      interval: 60s
-    - name: istio_request_duration_seconds_bucket
-      # maximum req duration P99
-      # milliseconds
-      threshold: 500
-      interval: 60s
+{{ toYaml .Values.canary.canaryAnalysis.metrics | indent 4 }}
+{{- end }}
+{{- end }}
 {{- end }}
