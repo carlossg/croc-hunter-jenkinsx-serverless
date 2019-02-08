@@ -62,6 +62,10 @@ to see the roll out metrics.
 
     kubectl --namespace istio-system port-forward deploy/prometheus 9090
 
+## Caveats
+
+If a rollback happens automatically because the metrics fail the GitOps repository for the production environment becomes out of date, still pointing to the new version instead of the old one.
+
 # Croc Hunter Demo
 
 Promote to production
