@@ -4,9 +4,9 @@
 
 Install Istio, Prometheus and [Flagger](https://docs.flagger.app)
 
-    jx create app istio
-    jx create app prometheus
-    jx create app flagger
+    jx create addon istio
+    jx create addon prometheus
+    jx create addon flagger
 
 Create a Istio Gateway in istio-system namespace:
 
