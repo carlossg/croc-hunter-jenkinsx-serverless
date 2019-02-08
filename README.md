@@ -25,6 +25,14 @@ To tail all the build logs
 
     kail -l build.knative.dev/buildName --since=5m
 
+Or in [GKE StackDriver logs](https://console.cloud.google.com/logs/viewer?authuser=1&advancedFilter=resource.type%3D%22container%22%0Aresource.labels.cluster_name%3D%22samurainarrow%22%0Aresource.labels.container_name%3Dbuild-step-jenkins)
+
+```
+resource.type="container"
+resource.labels.cluster_name="samurainarrow"
+resource.labels.container_name="build-step-jenkins"
+```
+
 To [promote from staging to production](http://jenkins-x.io/developing/promote/) just run
 
     jx promote croc-hunter-jenkinsx --version 0.0.1 --env production
