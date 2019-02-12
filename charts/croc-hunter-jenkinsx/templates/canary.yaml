@@ -14,7 +14,7 @@ spec:
   progressDeadlineSeconds: 60
   service:
     # container port
-    port: .Values.service.internalPort
+    port: {{.Values.service.internalPort}}
 {{- if .Values.canary.service.gateways }}
     # Istio gateways (optional)
     gateways:
