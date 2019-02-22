@@ -38,7 +38,7 @@ canary:
     hosts:
     - croc-hunter.istio.us.g.csanchez.org
     gateways:
-    - public-gateway.istio-system.svc.cluster.local
+    - jx-gateway.istio-system.svc.cluster.local
   canaryAnalysis:
     interval: 60s
     threshold: 5

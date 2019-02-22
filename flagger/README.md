@@ -22,6 +22,8 @@ Get the ip of the Istio ingress and point your wildcard domain to it
 
 Add the [canary object](../charts/croc-hunter-jenkinsx/templates/canary.yaml) that will add our deployment to Flagger. Add it to the Helm chart so it is created when promoting to `jx-production` namespace.
 
+Update the `values.yaml` section `canary.service.hosts` with the hostname for your aplication.
+
 Optional: Create a `ServiceEntry` to allow traffic to the Google metadata api to display the region
 
     kubectl create -f ../istio/google-api.yaml

@@ -1,7 +1,7 @@
 apiVersion: networking.istio.io/v1alpha3
 kind: Gateway
 metadata:
-  name: public-gateway
+  name: jx-gateway
   namespace: istio-system
 spec:
   selector:
