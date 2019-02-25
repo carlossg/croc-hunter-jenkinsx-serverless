@@ -10,10 +10,6 @@ Install Istio, Prometheus and [Flagger](https://docs.flagger.app)
 
 Istio is enabled in the `jx-production` namespace for metrics gathering.
 
-Create a Istio Gateway in istio-system namespace:
-
-    kubectl create -f ../istio/gateway.yaml
-
 Get the ip of the Istio ingress and point your wildcard domain to it
 
     kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}'
