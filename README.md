@@ -12,7 +12,8 @@ Just follow the [JenkinsX](http://jenkins-x.io) installation with `--prow=true`
 
 For example, if using GKE with cert-manager preinstalled for https certificates
 
-    jx install --provider=gke --domain=example.com --http=false --tls-acme=true
+    jx install --provider=gke --domain=eu.g.csanchez.org --prow
+    jx upgrade ingress
 
 Then fork this repo and [import it](http://jenkins-x.io/developing/import/)
 
