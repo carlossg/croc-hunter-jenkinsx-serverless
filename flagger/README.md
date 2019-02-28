@@ -65,5 +65,7 @@ Generate traffic to show the version served
 
 Generate delays and errors to show automatic rollbacks
 
-    watch curl -sSL http://croc-hunter.istio.us.g.csanchez.org/delay?wait=5
-    watch curl -sSL http://croc-hunter.istio.us.g.csanchez.org/status?code=500
+From a pod in the cluster (ie. a jx devpod) run
+
+    watch curl -sSL http://jx-production-croc-hunter-jenkinsx-canary.jx-production.svc.cluster.local:8080/delay?wait=5
+    watch curl -sSL http://jx-production-croc-hunter-jenkinsx-canary.jx-production.svc.cluster.local:8080/status?code=500
