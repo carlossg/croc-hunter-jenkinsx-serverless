@@ -37,6 +37,7 @@ canary:
   service:
     hosts:
     - croc-hunter.istio.us.g.csanchez.org
+    - croc-hunter.istio.eu.g.csanchez.org
     gateways:
     - jx-gateway.istio-system.svc.cluster.local
   canaryAnalysis:
