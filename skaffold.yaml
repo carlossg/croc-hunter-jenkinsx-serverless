@@ -6,11 +6,11 @@ build:
     context: .
     docker:
       buildArgs:
-        GIT_SHA: '{{.GIT_COMMIT}}'
-        WORKFLOW_RELEASE: '{{.VERSION}}'
+        GIT_SHA: ''
+        WORKFLOW_RELEASE: '1'
   tagPolicy:
     envTemplate:
-      template: '{{.DOCKER_REGISTRY}}/carlossg/croc-hunter-jenkinsx:{{.VERSION}}'
+      template: '{{.DOCKER_REGISTRY}}/carlossg/croc-hunter-jenkinsx:'
   local: {}
 deploy:
   kubectl: {}
