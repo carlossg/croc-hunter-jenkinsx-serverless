@@ -60,7 +60,7 @@ Generate traffic to show the version served
     while true; do
         out=$(curl -sSL -w "%{http_code}" http://croc-hunter.istio.us.g.csanchez.org/)
         date="$(date +%R:%S)"; echo -n $date
-        echo -n "$out" | tail -n 1 ; echo -n "-" ; echo "$out" | grep Release | grep -o '\d*\.\d*\.\d*'
+        echo -n "$out          " | tail -n 1 ; echo "$out" | grep Release | grep -o '\d*\.\d*\.\d*'
     done
 
 Generate delays and errors to show automatic rollbacks

@@ -55,18 +55,18 @@ $(PKGS): $(GOLINT) $(FGT)
 	@echo "TESTING"
 	@go test -v $@
 
-skaffold.yaml.new:
-	cp skaffold.yaml skaffold.yaml.new
+skaffold.yaml.new: skaffold.yaml
 ifeq ($(OS),Darwin)
-	sed -i "" -e "s/{{.VERSION}}/x$(VERSION)/" skaffold.yaml.new
-	sed -i "" -e "s/{{.GIT_COMMIT}}/$(GIT_COMMIT)/" skaffold.yaml.new
+	sed -i "" -e "s/{{.VERSION}}/$(VERSION)/" skaffold.yaml
+	sed -i "" -e "s/{{.GIT_COMMIT}}/$(shell git rev-list -1 HEAD)/" skaffold.yaml
 else ifeq ($(OS),Linux)
-	sed -i -e "s/{{.VERSION}}/$(VERSION)/" skaffold.yaml.new
-	sed -i -e "s/{{.GIT_COMMIT}}/$(GIT_COMMIT)/" skaffold.yaml.new
+	sed -i -e "s/{{.VERSION}}/$(VERSION)/" skaffold.yaml
+	sed -i -e "s/{{.GIT_COMMIT}}/$(shell git rev-list -1 HEAD)/" skaffold.yaml
 else
 	echo "platfrom $(OS) not supported to release from"
 	exit -1
 endif
+	touch skaffold.yaml.new
 
 
 .PHONY: lint
