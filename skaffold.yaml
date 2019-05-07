@@ -21,7 +21,7 @@ profiles:
     - docker: {}
     tagPolicy:
       envTemplate:
-        template: '{{.DOCKER_REGISTRY}}/carlossg/croc-hunter-jenkinsx:{{.DIGEST_HEX}}'
+        template: '{{.DOCKER_REGISTRY}}/carlossg/croc-hunter-jenkinsx'
     local: {}
   deploy:
     helm:
