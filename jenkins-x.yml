@@ -6,7 +6,7 @@ pipelineConfig:
       build:
         preSteps:
         - name: inject-version
-          sh: make skaffold.yaml.new && mv skaffold.yaml.new skaffold.yaml && env
+          sh: make skaffold.yaml.new && mv skaffold.yaml.new skaffold.yaml && cat skaffold.yaml
     release:
       build:
         preSteps:
